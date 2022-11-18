@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-test/mq"
+	"go-test/pkg/mq"
 )
 
 func main() {
