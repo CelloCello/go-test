@@ -21,8 +21,18 @@ func Config(g *gin.Engine) *gin.Engine {
 	corsConfig.AllowBrowserExtensions = true
 	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
 	// corsConfig.AllowHeaders = []string{"Authorization", "Origin"}
-	corsConfig.AllowHeaders = []string{"Authorization", "Content-Type", "Upgrade", "Origin",
-		"Connection", "Accept-Encoding", "Accept-Language", "Host", "Access-Control-Request-Method", "Access-Control-Request-Headers"}
+	corsConfig.AllowHeaders = []string{
+		"Authorization",
+		"Content-Type",
+		"Upgrade",
+		"Origin",
+		"Connection",
+		"Accept-Encoding",
+		"Accept-Language",
+		"Host",
+		"Access-Control-Request-Method",
+		"Access-Control-Request-Headers",
+	}
 	g.Use(cors.New(corsConfig))
 	return g
 }

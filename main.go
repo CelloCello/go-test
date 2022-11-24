@@ -1,10 +1,11 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
 	"go-test/pkg/logger"
 	"log"
-	"math/rand"
+	"math/big"
 	"os"
 	"runtime"
 	"strings"
@@ -47,7 +48,7 @@ type Sibainu struct {
 	Dog
 }
 
-type RealDog struct {}
+type RealDog struct{}
 
 func (s Sibainu) bark() string {
 	return s.Dog.bark()
@@ -55,8 +56,6 @@ func (s Sibainu) bark() string {
 func (r RealDog) bark() string {
 	return "Si"
 }
-
-
 
 func main() {
 	// testSlice()
@@ -134,21 +133,21 @@ func zapLog() {
 	// logger := baseLogger.Sugar()
 
 	f, err := os.OpenFile("./test.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
 	config := zap.NewDevelopmentConfig()
 	core := zapcore.NewTee(
 		zapcore.NewCore(
 			zapcore.NewConsoleEncoder(config.EncoderConfig),
 			zapcore.AddSync(os.Stderr),
-			zapcore.Level(zap.DebugLevel),
+			zap.DebugLevel,
 		),
 		zapcore.NewCore(
 			zapcore.NewJSONEncoder(config.EncoderConfig),
 			zapcore.AddSync(f),
-			zapcore.Level(zap.DebugLevel),
+			zap.DebugLevel,
 		),
 	)
 	baseLogger := zap.New(core)
@@ -178,7 +177,8 @@ func myTask(id int, isRand bool) {
 	for i := 0; i < 10; i++ {
 		randNum := 1
 		if isRand {
-			randNum = rand.Intn(3) + 1
+			dice, _ := rand.Int(rand.Reader, big.NewInt(3))
+			randNum = int(dice.Int64()) + 1
 		}
 		time.Sleep(time.Duration(randNum) * time.Second)
 		fmt.Printf("[Task %d] Proc: %d\n", id, i+1)
@@ -199,8 +199,7 @@ func goRoutineWQ() {
 	// use wait queue and wrapped to a task queue
 
 	fmt.Println("Test Start.")
-	var wq WQueue
-	wq = &WaitQueue{}
+	var wq WQueue = &WaitQueue{}
 	wq.Init()
 	wq.Add(myTask, false)
 	wq.Add(myTask, false)
@@ -217,13 +216,13 @@ func goRoutineCh() {
 	// anonymous goroutine
 	go func(c chan string) {
 		time.Sleep(3 * time.Second)
-		// fmt.Println("Hello " + <-c + "!")
-		// c <- "hh"
-		fmt.Println("Hello !")
+		fmt.Println("Hello " + <-c + "!")
+		c <- "hh"
+		// fmt.Println("Hello !")
 	}(c)
 
-	c <- "John"
-	// <- c
+	// c <- "John"
+	<-c
 	fmt.Println("Test Done.")
 }
 

@@ -20,7 +20,7 @@ type WQueue interface {
 
 type WaitQueue struct {
 	queue []Task
-	wg *sync.WaitGroup
+	wg    *sync.WaitGroup
 }
 
 func (wq *WaitQueue) Init() {

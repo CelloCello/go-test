@@ -8,8 +8,8 @@ import (
 
 var routeV1 = []net.Route{
 	{
-		Method:   http.MethodGet,
-		Path:     "ping",
+		Method: http.MethodGet,
+		Path:   "ping",
 		Handlers: []net.HandlerFunc{
 			apiv1.TestPing,
 		},

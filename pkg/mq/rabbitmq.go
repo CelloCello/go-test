@@ -40,7 +40,6 @@ func (p *RabbitMQProducer) Init() {
 	)
 	failOnError(err, "Failed to declare a queue")
 	p.queue = &q
-
 }
 
 func (p *RabbitMQProducer) Fire(msg string) {

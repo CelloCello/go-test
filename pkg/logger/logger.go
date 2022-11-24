@@ -26,22 +26,22 @@ const (
 	Warn = "warn"
 	// Error is for logging errors
 	Error = "error"
-	// Fatal is for logging fatal messages. The sytem shutsdown after logging the message.
+	// Fatal is for logging fatal messages. The system shutsdown after logging the message.
 	Fatal = "fatal"
 )
 
 // global logger
 var gLogger Logger
 
-func init() {
+// func init() {
 
-}
+// }
 
 func New() Logger {
 	f, err := os.OpenFile("./test.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-    if err != nil {
-        panic(err)
-    }
+	if err != nil {
+		panic(err)
+	}
 
 	logger := newZapLogger(f, Debug)
 	gLogger = logger

@@ -21,4 +21,3 @@ func failOnError(err error, msg string) {
 		fmt.Printf("%s: %s\n", msg, err)
 	}
 }
-

@@ -1,0 +1,64 @@
+run:
+  go: '1.19'
+  concurrency: 4
+  timeout: 5m
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - gomodguard
+    - depguard
+    - dogsled
+    - dupl
+    # - errcheck
+    - exportloopref
+    - funlen
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - goimports
+    # - gomnd
+    # - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - nakedret
+    - noctx
+    - nolintlint
+    - staticcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    # - unused
+    - whitespace
+    - revive
+    - nestif
+    - prealloc
+
+linters-settings:
+  dupl:
+    threshold: 100
+  funlen:
+    lines: 100
+    statements: 50
+  goconst:
+    min-len: 2
+    min-occurrences: 3
+  gocyclo:
+    min-complexity: 15
+  lll:
+    line-length: 100
+    tab-width: 4
+  misspell:
+    locale: US
+  nolintlint:
+    allow-unused: false
+  errcheck:
+    check-type-assertions: true
+    # check-blank: true

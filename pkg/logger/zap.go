@@ -135,12 +135,12 @@ func newZapLogger(writer io.Writer, level string) *ZapLogger {
 		zapcore.NewCore(
 			zapcore.NewConsoleEncoder(config.EncoderConfig),
 			zapcore.AddSync(os.Stderr),
-			zapcore.Level(zapLv),
+			zapLv,
 		),
 		zapcore.NewCore(
 			zapcore.NewJSONEncoder(config.EncoderConfig),
 			zapcore.AddSync(writer),
-			zapcore.Level(zapLv),
+			zapLv,
 		),
 	)
 	baseLogger := zap.New(core)
