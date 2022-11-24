@@ -21,20 +21,31 @@ services:
   #     retries: 10
   #     start_period: 30s
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.9.25-management-alpine
+  # rabbitmq:
+  #   container_name: rabbitmq
+  #   image: rabbitmq:3.9.25-management-alpine
+  #   restart: always
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: admin
+  #     RABBITMQ_DEFAULT_PASS: admin
+  #   volumes:
+  #     - "./data/mq:/var/lib/rabbitmq"
+  #   # healthcheck:
+  #   #   test: rabbitmq-diagnostics -q ping
+  #   #   interval: 30s
+  #   #   timeout: 30s
+  #   #   retries: 3
+  #   ports:
+  #       - 5672:5672
+  #       - 15672:15672
+
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra
     restart: always
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
-    volumes:
-      - "./data/mq:/var/lib/rabbitmq"
-    # healthcheck:
-    #   test: rabbitmq-diagnostics -q ping
-    #   interval: 30s
-    #   timeout: 30s
-    #   retries: 3
+    privileged: true
     ports:
-        - 5672:5672
-        - 15672:15672
+      - "9042:9042"
+    volumes:
+      - "./data/cassandra:/var/lib/cassandra"
+      # - "./cassandra.yaml:/etc/cassandra/cassandra.yaml"
