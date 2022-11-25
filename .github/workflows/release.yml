@@ -7,8 +7,8 @@ on:
       - '*'
 
 jobs:
-  check:
-    uses: ./.github/workflows/lint_and_test.yml
+  # check:
+  #   uses: ./.github/workflows/lint_and_test.yml
 
   release:
     runs-on: ubuntu-latest
