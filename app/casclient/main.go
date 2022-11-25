@@ -19,10 +19,7 @@ func main() {
 	// fmt.Println(session.Pool.Size())
 	defer session.Close()
 
-	myMap :=     map[string]string{"first key": "first value", "second key": "second value", "third key": "third value", "fourth key": "fourth value", "fifth key": "fifth value"}
-	fmt.Print(myMap)
-
-	query :=  session.Query("SELECT * FROM user").Iter()
+	query := session.Query("SELECT * FROM user").Iter()
 	// if query != nil {
 	// 	log.Fatal(query)
 	// }

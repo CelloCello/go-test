@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/rand"
 	"fmt"
 	"go-test/pkg/logger"
@@ -13,6 +14,9 @@ import (
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"gocloud.dev/blob"
+	_ "gocloud.dev/blob/fileblob"
+	_ "gocloud.dev/blob/memblob"
 )
 
 type Test struct {
@@ -65,10 +69,11 @@ func main() {
 	// normalLog()
 	// fmt.Println("---------------")
 	// zapLog()
-	wrappedLogger()
+	// wrappedLogger()
 	// r := guidTrans("0b8be8cfb61b485c9f2c8d3eddf538e6")
 	// r := guidTrans("95ac48c5-b966-47b2-8323-5e0d82c60ca9")
 	// goRoutineCh()
+	testStorage()
 }
 
 func testSlice() {
@@ -237,4 +242,39 @@ func guidTrans(id string) string {
 
 	fmt.Println(result)
 	return result
+}
+
+func testStorage() {
+	ctx := context.Background()
+	bucket1, err := blob.OpenBucket(ctx, "mem://")
+	if err != nil {
+		panic("aaaa")
+	}
+	defer bucket1.Close()
+	err = bucket1.WriteAll(ctx, "my-key", []byte("hello world"), nil)
+	if err != nil {
+		panic("rrrr")
+	}
+	data, err := bucket1.ReadAll(ctx, "my-key")
+	if err != nil {
+		panic("rrrr")
+	}
+	fmt.Println(string(data))
+
+	bucket2, err := blob.OpenBucket(ctx, "file://./data")
+	if err != nil {
+		fmt.Println(err)
+		panic("bbb")
+	}
+	defer bucket2.Close()
+	b, err := bucket2.ReadAll(ctx, "test.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(b))
+	w, err := bucket2.NewWriter(ctx, "foo.txt", nil)
+	if err != nil {
+		panic("rrrr")
+	}
+	w.Close()
 }
