@@ -269,12 +269,13 @@ func testStorage() {
 	defer bucket2.Close()
 	b, err := bucket2.ReadAll(ctx, "test.txt")
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	fmt.Println(string(b))
 	w, err := bucket2.NewWriter(ctx, "foo.txt", nil)
 	if err != nil {
 		panic("rrrr")
 	}
+	w.Write([]byte("it's a test\n"))
 	w.Close()
 }
