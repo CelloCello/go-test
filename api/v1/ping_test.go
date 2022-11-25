@@ -3,32 +3,45 @@ package v1
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"go-test/pkg/net"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
 
-func performRequest(r http.Handler, method, path string, data any) *httptest.ResponseRecorder {
+var gGin *gin.Engine
+var gBasePath string
+
+func performRequest(method, path string, data any) *httptest.ResponseRecorder {
 	jsonData, _ := json.Marshal(data)
 	dataBytes := bytes.NewBuffer(jsonData)
-	req, _ := http.NewRequest(method, path, dataBytes)
+	req, _ := http.NewRequest(method, gBasePath+path, dataBytes)
 	w := httptest.NewRecorder()
-	r.ServeHTTP(w, req)
+	gGin.ServeHTTP(w, req)
 	return w
 }
 
-func TestPing(t *testing.T) {
+func netInit() {
 	g := net.Init()
-	w := performRequest(g, "GET", "/api/v1/ping", nil)
+	basePath := "/api/v1"
+	SetRoutes(basePath)
+	gGin = g
+	gBasePath = basePath
+}
+
+func TestPing(t *testing.T) {
+	netInit()
+	w := performRequest("GET", "/ping", nil)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
-	response := net.Response{}
-	// err := json.Unmarshal([]byte(w.Body.String()), &response)
-	err := json.NewDecoder(w.Body).Decode(&response)
+	resp := PingResponse{}
+	err := json.NewDecoder(w.Body).Decode(&resp)
+	fmt.Println(w)
 	assert.Nil(t, err)
-	assert.Equal(t, "pong", response.Message)
+	assert.Equal(t, "pong", resp.Message)
 }

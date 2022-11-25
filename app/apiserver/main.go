@@ -1,6 +1,7 @@
 package main
 
 import (
+	apiv1 "go-test/api/v1"
 	docs "go-test/app/apiserver/docs"
 	"go-test/pkg/net"
 )
@@ -18,7 +19,7 @@ import (
 func main() {
 	g := net.Init()
 	basePath := "/api/v1"
-	net.RegRoutes(basePath, routeV1)
+	apiv1.SetRoutes(basePath)
 	net.SetSwagger(basePath, "/swagger/*any", docs.SwaggerInfo)
 	err := g.Run()
 	if err != nil {

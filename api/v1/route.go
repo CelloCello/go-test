@@ -1,10 +1,13 @@
-package main
+package v1
 
 import (
-	apiv1 "go-test/api/v1"
 	"go-test/pkg/net"
 	"net/http"
 )
+
+func SetRoutes(basePath string) {
+	net.RegRoutes(basePath, routeV1)
+}
 
 // @title Gin swagger
 // @version 1.0
@@ -17,7 +20,7 @@ var routeV1 = []net.Route{
 		Method: http.MethodGet,
 		Path:   "ping",
 		Handlers: []net.HandlerFunc{
-			apiv1.Ping,
+			Ping,
 		},
 	},
 }

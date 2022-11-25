@@ -2,6 +2,12 @@
 my golang practice
 
 
+## Run
+
+### API Server
+
+    $ swag init -o ./app/apiserver/docs -g ./app/apiserver/route.go
+
 ## Docs
 
 ### REST API
@@ -22,3 +28,9 @@ Test release building in local.
 release
 
     $ goreleaser release
+
+
+## Lint and Test
+
+    $ make lint
+    $ make test
