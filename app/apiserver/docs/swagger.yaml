@@ -1,0 +1,37 @@
+basePath: /api/v1
+definitions:
+  v1.PingResponse:
+    properties:
+      error:
+        type: string
+      msg:
+        type: string
+      payload: {}
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Gin swagger
+  title: Gin swagger
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      description: do ping
+      parameters:
+      - description: Id
+        in: query
+        name: Id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.PingResponse'
+      summary: ping example
+      tags:
+      - AAA
+swagger: "2.0"

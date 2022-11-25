@@ -20,7 +20,7 @@ type PingResponse struct {
 // @Produce json
 // @Success 200 {object} PingResponse
 // @Router /ping [get]
-func TestPing(c *gin.Context) {
+func Ping(c *gin.Context) {
 	resp := PingResponse{}
 	resp.Message = "pong"
 	c.JSON(http.StatusOK, resp)

@@ -1,5 +1,5 @@
 
 data/
-app/apiserver/docs/*
+# app/apiserver/docs/*
 *.log
 dist/
