@@ -1,3 +1,4 @@
 
 data/
+app/apiserver/docs/*
 *.log

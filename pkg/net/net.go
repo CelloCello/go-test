@@ -3,6 +3,10 @@ package net
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/swag"
 )
 
 type HandlerFunc = gin.HandlerFunc
@@ -42,6 +46,12 @@ func Init() *gin.Engine {
 	Config(g)
 	ginEngine = g
 	return g
+}
+
+func SetSwagger(basePath string, docPath string, swaggerInfo *swag.Spec) {
+	swaggerInfo.BasePath = basePath
+	// docURL := ginSwagger.URL("/swagger/doc.json")
+	ginEngine.GET(docPath, ginSwagger.WrapHandler(swaggerfiles.Handler))
 }
 
 func RegRoutes(group string, routes []Route) {
