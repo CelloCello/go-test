@@ -1,8 +1,8 @@
 package main
 
 import (
-	apiv1 "go-test/api/v1"
 	docs "go-test/app/apiserver/docs"
+	apiv1 "go-test/internal/api/v1"
 	"go-test/pkg/net"
 )
 
