@@ -6,7 +6,7 @@ my golang practice
 
 ### API Server
 
-    $ swag init -o ./app/apiserver/docs -g ./app/apiserver/route.go
+    $ go run ./app/apiserver
 
 ## Docs
 
@@ -14,7 +14,7 @@ my golang practice
 
 Gen by gin-swagger
 
-    $ swag init -o ./app/apiserver/docs -g ./app/apiserver/route.go
+    $ swag init -o ./app/apiserver/docs -g ./app/apiserver/main.go
 
 
 ## Release

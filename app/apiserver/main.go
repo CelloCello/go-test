@@ -3,6 +3,8 @@ package main
 import (
 	docs "go-test/app/apiserver/docs"
 	apiv1 "go-test/internal/api/v1"
+	"go-test/internal/migrations"
+	"go-test/pkg/database"
 	"go-test/pkg/net"
 )
 
@@ -17,6 +19,11 @@ import (
 // @BasePath /api/v1
 // schemes http
 func main() {
+	// database
+	database.Init("data/data.sqlite")
+	migrations.Init()
+
+	// net engine
 	g := net.Init()
 	basePath := "/api/v1"
 	apiv1.SetRoutes(basePath)

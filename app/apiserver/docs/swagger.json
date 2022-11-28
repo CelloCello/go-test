@@ -3,7 +3,14 @@
     "info": {
         "description": "Gin swagger",
         "title": "Gin swagger",
-        "contact": {},
+        "contact": {
+            "name": "Sero",
+            "url": "https://ystock.tw/"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "1.0"
     },
     "host": "localhost:8080",
@@ -37,9 +44,101 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "get": {
+                "description": "Get user list",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "User",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.UsersResp"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "User",
+                "parameters": [
+                    {
+                        "description": "User JSON",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.CreateUserReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.CreateUserResp"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.CreateUserReq": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.CreateUserResp": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "payload": {}
+            }
+        },
         "v1.PingResponse": {
             "type": "object",
             "properties": {
@@ -50,6 +149,23 @@
                     "type": "string"
                 },
                 "payload": {}
+            }
+        },
+        "v1.UsersResp": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
+                },
+                "payload": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.User"
+                    }
+                }
             }
         }
     }

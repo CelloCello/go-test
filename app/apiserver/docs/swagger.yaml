@@ -1,5 +1,33 @@
 basePath: /api/v1
 definitions:
+  models.User:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  v1.CreateUserReq:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  v1.CreateUserResp:
+    properties:
+      error:
+        type: string
+      msg:
+        type: string
+      payload: {}
+    type: object
   v1.PingResponse:
     properties:
       error:
@@ -8,10 +36,26 @@ definitions:
         type: string
       payload: {}
     type: object
+  v1.UsersResp:
+    properties:
+      error:
+        type: string
+      msg:
+        type: string
+      payload:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
 host: localhost:8080
 info:
-  contact: {}
+  contact:
+    name: Sero
+    url: https://ystock.tw/
   description: Gin swagger
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Gin swagger
   version: "1.0"
 paths:
@@ -34,4 +78,36 @@ paths:
       summary: ping example
       tags:
       - AAA
+  /users:
+    get:
+      description: Get user list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.UsersResp'
+      summary: User
+      tags:
+      - User
+    post:
+      description: Create a user
+      parameters:
+      - description: User JSON
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/v1.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.CreateUserResp'
+      summary: User
+      tags:
+      - User
 swagger: "2.0"
