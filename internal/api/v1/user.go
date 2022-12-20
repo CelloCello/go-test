@@ -20,8 +20,14 @@ type CreateUserReq struct {
 	Name string `jaon:"name" binding:"required"`
 }
 
+
+// type CreateUserPayload struct {
+// 	User models.User
+// 	Key models.Key
+// }
 type CreateUserResp struct {
 	net.Response
+	// Payload CreateUserPayload `json:"payload"`
 }
 
 // TestPing godoc
@@ -35,7 +41,7 @@ func GetUsers(c *gin.Context) {
 	db := database.GetDB()
 	users := []models.User{}
 
-	result := db.Order("created_at desc").Find(&users)
+	result := db.Model(&models.User{}).Preload("Key").Order("created_at desc").Find(&users)
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"msg":   "failed to get users",
@@ -81,7 +87,20 @@ func CreateUser(c *gin.Context) {
 
 	log.Printf("created user: id: %s, name: %s", newUser.ID, newUser.Name)
 
+	// create a key
+	newKey := models.Key{}
+	newKey.UserID = newUser.ID
+	r = db.Create(&newKey)
+	if r.Error != nil {
+		resp.Message = "failed to create key"
+		c.JSON(http.StatusBadRequest, resp)
+		return
+	}
+
+	newUser.Key = newKey
+	// db.Save(&newUser)
+
 	resp.Message = "success"
-	resp.Payload = user
+	resp.Payload = newUser
 	c.JSON(http.StatusOK, resp)
 }

@@ -14,11 +14,13 @@ func Init() *gormigrate.Gormigrate {
 	db := database.GetDB()
 	m := gormigrate.New(db, gormigrate.DefaultOptions, []*gormigrate.Migration{
 		Migrate20221128001(),
+		// Migrate20221209001(),
 	})
 
 	m.InitSchema(func(tx *gorm.DB) error {
 		err := tx.AutoMigrate(
 			&models.User{},
+			&models.Key{},
 			// all other tables of you app
 		)
 		if err != nil {
