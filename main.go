@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go-test/pkg/logger"
 	"log"
+	"math"
 	"math/big"
 	"os"
 	"runtime"
@@ -73,7 +74,9 @@ func main() {
 	// r := guidTrans("0b8be8cfb61b485c9f2c8d3eddf538e6")
 	// r := guidTrans("95ac48c5-b966-47b2-8323-5e0d82c60ca9")
 	// goRoutineCh()
-	testStorage()
+	// testStorage()
+	// slicePointerTest()
+	fmt.Println(int(math.Ceil(float64(11) / float64(2))))
 }
 
 func testSlice() {
@@ -278,4 +281,26 @@ func testStorage() {
 	}
 	w.Write([]byte("it's a test\n"))
 	w.Close()
+}
+
+func slicePointerTest() {
+    slice:= []string{"a","a"}
+ 
+    func(slice []string){
+        slice= append(slice, "a")
+		// sh := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
+        slice[0]="b";
+        slice[1]="b"; 
+        fmt.Print(slice)
+        // fmt.Printf("hhhhh111 - %v", sh)
+    }(slice)
+    // func(slice *[]string){
+    //     *slice = append(*slice, "a")
+    //     (*slice)[0]="b";
+    //     (*slice)[1]="b"; 
+    //     fmt.Print(*slice)
+    // }(&slice)
+	// sh := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
+    fmt.Print(slice) 
+    // fmt.Printf("hhhhh000 - %v", sh)
 }
