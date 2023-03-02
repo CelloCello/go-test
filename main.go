@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"go-test/pkg/logger"
 	"log"
-	"math"
 	"math/big"
 	"os"
 	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
@@ -64,6 +64,7 @@ func (r RealDog) bark() string {
 
 func main() {
 	// testSlice()
+	// testSliceWhile()
 	// testStruct()
 	// testMem()
 	// testInterface()
@@ -76,7 +77,10 @@ func main() {
 	// goRoutineCh()
 	// testStorage()
 	// slicePointerTest()
-	fmt.Println(int(math.Ceil(float64(11) / float64(2))))
+	// fmt.Println(int(math.Ceil(float64(11) / float64(2))))
+
+	// myTT()
+	bit()
 }
 
 func testSlice() {
@@ -90,6 +94,27 @@ func testSlice() {
 	if a := s[1]; a == 2 {
 		fmt.Printf("a is %d\n", a)
 	}
+}
+
+func testSliceWhile() {
+	s := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	fmt.Println("Start Loop")
+	batchNum := 3
+	for {
+		// if len(s) == 0 {
+		// 	break
+		// }
+		if len(s) > batchNum {
+			fmt.Printf("sssss: %v\n", s[:batchNum])
+			s = s[batchNum:]
+		} else {
+			fmt.Printf("sssss: %v\n", s)
+			break
+		}
+		// fmt.Printf("rrrrr: %v\n", s)
+	}
+	fmt.Println("Loop over")
+
 }
 
 func testStruct() {
@@ -284,23 +309,40 @@ func testStorage() {
 }
 
 func slicePointerTest() {
-    slice:= []string{"a","a"}
- 
-    func(slice []string){
-        slice= append(slice, "a")
+	slice := []string{"a", "a"}
+
+	func(slice []string) {
+		slice = append(slice, "a")
 		// sh := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
-        slice[0]="b";
-        slice[1]="b"; 
-        fmt.Print(slice)
-        // fmt.Printf("hhhhh111 - %v", sh)
-    }(slice)
-    // func(slice *[]string){
-    //     *slice = append(*slice, "a")
-    //     (*slice)[0]="b";
-    //     (*slice)[1]="b"; 
-    //     fmt.Print(*slice)
-    // }(&slice)
+		slice[0] = "b"
+		slice[1] = "b"
+		fmt.Print(slice)
+		// fmt.Printf("hhhhh111 - %v", sh)
+	}(slice)
+	// func(slice *[]string){
+	//     *slice = append(*slice, "a")
+	//     (*slice)[0]="b";
+	//     (*slice)[1]="b";
+	//     fmt.Print(*slice)
+	// }(&slice)
 	// sh := (*reflect.SliceHeader)(unsafe.Pointer(&slice))
-    fmt.Print(slice) 
-    // fmt.Printf("hhhhh000 - %v", sh)
+	fmt.Print(slice)
+	// fmt.Printf("hhhhh000 - %v", sh)
+}
+
+func myTT() {
+	str := "x-txsp-send-time"
+	ts, _ := strconv.ParseInt(str, 10, 64)
+	fmt.Printf("ttttttt: %d, %d\n", ts, time.Now().Unix() - ts)
+}
+
+func bit() {
+	a := 1
+	b := 2
+	c := 4
+	d := a | b
+	fmt.Println(d)
+	fmt.Println(d & c)
+	fmt.Println(d & a)
+	fmt.Println(d & b)
 }
